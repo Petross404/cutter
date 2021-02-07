@@ -651,7 +651,8 @@ bool DisassemblyWidget::eventFilter(QObject *obj, QEvent *event)
         jumpToOffsetUnderCursor(cursor);
 
         return true;
-    } else if (event->type() == QEvent::ToolTip && obj == mDisasTextEdit->viewport()) {
+    } else if (Config()->getConfigVar("asm.preview").toBool()
+        && (event->type() == QEvent::ToolTip && obj == mDisasTextEdit->viewport())) {
         QHelpEvent *helpEvent = static_cast<QHelpEvent *>(event);
 
         auto cursorForWord = mDisasTextEdit->cursorForPosition(helpEvent->pos());

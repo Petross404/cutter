@@ -47,6 +47,7 @@ private slots:
     void on_nbytesSpinBox_valueChanged(int value);
 
     void on_bytesCheckBox_toggled(bool checked);
+    void on_disasPreviewCheckBox_toggled(bool checked);
     void on_varsubCheckBox_toggled(bool checked);
 
     void on_buttonBox_clicked(QAbstractButton *button);

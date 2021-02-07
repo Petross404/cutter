@@ -116,6 +116,10 @@ void AsmOptionsWidget::updateAsmOptionsFromVars()
     }
     ui->caseComboBox->blockSignals(false);
 
+    ui->disasPreviewCheckBox->blockSignals(true);
+    ui->disasPreviewCheckBox->setChecked(Config()->getConfigBool("asm.preview"));
+    ui->disasPreviewCheckBox->blockSignals(false);
+
     ui->asmTabsSpinBox->blockSignals(true);
     ui->asmTabsSpinBox->setValue(Config()->getConfigInt("asm.tabs"));
     ui->asmTabsSpinBox->blockSignals(false);
@@ -162,6 +166,12 @@ void AsmOptionsWidget::on_bytesCheckBox_toggled(bool checked)
     ui->lbytesCheckBox->setEnabled(checked);
     ui->nbytesLabel->setEnabled(checked);
     ui->nbytesSpinBox->setEnabled(checked);
+    triggerAsmOptionsChanged();
+}
+
+void AsmOptionsWidget::on_disasPreviewCheckBox_toggled(bool checked)
+{
+    Config()->setConfig("asm.preview", checked);
     triggerAsmOptionsChanged();
 }
 
