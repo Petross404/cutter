@@ -179,7 +179,6 @@ void AsmOptionsWidget::on_nbytesSpinBox_valueChanged(int value)
 
 void AsmOptionsWidget::on_disasPreviewCheckBox_stateChanged(int checked)
 {
-    qDebug() << "function";
     Config()->setConfig("asm.preview", static_cast<bool>(checked));
     triggerAsmOptionsChanged();
 }
