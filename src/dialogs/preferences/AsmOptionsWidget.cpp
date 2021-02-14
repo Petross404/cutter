@@ -32,6 +32,7 @@ AsmOptionsWidget::AsmOptionsWidget(PreferencesDialog *dialog)
                    { ui->xrefCheckBox, "asm.xrefs" },
                    { ui->indentCheckBox, "asm.indent" },
                    { ui->offsetCheckBox, "asm.offset" },
+                   { ui->disasPreviewCheckBox, "asm.preview" },
                    { ui->relOffsetCheckBox, "asm.reloff" },
                    { ui->relOffFlagsCheckBox, "asm.reloff.flags" },
                    { ui->slowCheckBox, "asm.slow" },
@@ -65,6 +66,7 @@ AsmOptionsWidget::AsmOptionsWidget(PreferencesDialog *dialog)
             &AsmOptionsWidget::relOffCheckBoxToggled);
     connect(Core(), &CutterCore::asmOptionsChanged, this,
             &AsmOptionsWidget::updateAsmOptionsFromVars);
+
     updateAsmOptionsFromVars();
 }
 
@@ -169,15 +171,16 @@ void AsmOptionsWidget::on_bytesCheckBox_toggled(bool checked)
     triggerAsmOptionsChanged();
 }
 
-void AsmOptionsWidget::on_disasPreviewCheckBox_toggled(bool checked)
-{
-    Config()->setConfig("asm.preview", checked);
-    triggerAsmOptionsChanged();
-}
-
 void AsmOptionsWidget::on_nbytesSpinBox_valueChanged(int value)
 {
     Config()->setConfig("asm.nbytes", value);
+    triggerAsmOptionsChanged();
+}
+
+void AsmOptionsWidget::on_disasPreviewCheckBox_stateChanged(int checked)
+{
+    qDebug() << "function";
+    Config()->setConfig("asm.preview", static_cast<bool>(checked));
     triggerAsmOptionsChanged();
 }
 
