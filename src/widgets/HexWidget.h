@@ -46,7 +46,10 @@ struct BasicCursor
         }
         return *this;
     }
-    bool operator<(const BasicCursor &r) { return address < r.address || (pastEnd < r.pastEnd); }
+    bool operator<(const BasicCursor &r) const
+    {
+        return address < r.address || (pastEnd < r.pastEnd);
+    }
 };
 
 struct HexCursor
@@ -74,7 +77,7 @@ struct HexCursor
 class AbstractData
 {
 public:
-    virtual ~AbstractData() {}
+    virtual ~AbstractData() = default;
     virtual void fetch(uint64_t addr, int len) = 0;
     virtual bool copy(void *out, uint64_t adr, size_t len) = 0;
     virtual uint64_t maxIndex() = 0;
@@ -95,7 +98,12 @@ public:
         }
     }
 
-    ~BufferData() override {}
+    BufferData(const BufferData &b) = delete;
+    BufferData &operator=(const BufferData &b) = delete;
+    BufferData(BufferData &&b) = delete;
+    BufferData &operator=(BufferData &&b) = delete;
+
+    ~BufferData() override = default;
 
     void fetch(uint64_t, int) override {}
 
@@ -118,8 +126,14 @@ private:
 class MemoryData : public AbstractData
 {
 public:
-    MemoryData() {}
-    ~MemoryData() override {}
+    MemoryData() = default;
+
+    MemoryData(const MemoryData &m) = delete;
+    MemoryData &operator=(const MemoryData &m) = delete;
+    MemoryData(MemoryData &&m) = delete;
+    MemoryData &operator=(MemoryData &&m) = delete;
+
+    ~MemoryData() override = default;
     static constexpr size_t BLOCK_SIZE = 4096;
 
     void fetch(uint64_t address, int length) override
@@ -165,9 +179,9 @@ public:
         return true;
     }
 
-    virtual uint64_t maxIndex() override { return m_lastValidAddr; }
+    uint64_t maxIndex() override { return m_lastValidAddr; }
 
-    virtual uint64_t minIndex() override { return m_firstBlockAddr; }
+    uint64_t minIndex() override { return m_firstBlockAddr; }
 
 private:
     QVector<QByteArray> m_blocks;
@@ -212,7 +226,7 @@ public:
         }
     }
 
-    bool intersects(uint64_t start, uint64_t end)
+    bool intersects(uint64_t start, uint64_t end) const
     {
         return !m_empty && m_end >= start && m_start <= end;
     }
@@ -227,9 +241,9 @@ public:
         return size;
     }
 
-    inline bool isEmpty() { return m_empty; }
-    inline uint64_t start() { return m_start; }
-    inline uint64_t end() { return m_end; }
+    inline bool isEmpty() const { return m_empty; }
+    inline uint64_t start() const { return m_start; }
+    inline uint64_t end() const { return m_end; }
 
 private:
     BasicCursor m_init;
@@ -242,9 +256,25 @@ class HexWidget : public QScrollArea
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(HexWidget)                                                              \
+        HexWidget(const HexWidget &w) = delete;                                                    \
+        HexWidget &operator=(const HexWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(HexWidget)                                                              \
+        HexWidget(HexWidget &&w) = delete;                                                         \
+        HexWidget &operator=(HexWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(HexWidget)                                                         \
+        Q_DISABLE_COPY(HexWidget)                                                                  \
+        Q_DISABLE_MOVE(HexWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(HexWidget)
+
 public:
     explicit HexWidget(QWidget *parent = nullptr);
-    ~HexWidget();
+    ~HexWidget() override;
 
     void setMonospaceFont(const QFont &font);
 

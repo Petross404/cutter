@@ -63,9 +63,25 @@ class FlagsWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(FlagsWidget)                                                            \
+        FlagsWidget(const FlagsWidget &w) = delete;                                                \
+        FlagsWidget &operator=(const FlagsWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(FlagsWidget)                                                            \
+        FlagsWidget(FlagsWidget &&w) = delete;                                                     \
+        FlagsWidget &operator=(FlagsWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(FlagsWidget)                                                       \
+        Q_DISABLE_COPY(FlagsWidget)                                                                \
+        Q_DISABLE_MOVE(FlagsWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(FlagsWidget)
+
 public:
     explicit FlagsWidget(MainWindow *main);
-    ~FlagsWidget();
+    ~FlagsWidget() override;
 
 private slots:
     void on_flagspaceCombo_currentTextChanged(const QString &arg1);

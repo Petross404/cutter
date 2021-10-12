@@ -25,6 +25,8 @@ Omnibar::Omnibar(MainWindow *main, QWidget *parent) : QLineEdit(parent), main(ma
     clear_shortcut->setContext(Qt::WidgetWithChildrenShortcut);
 }
 
+Omnibar::~Omnibar() = default;
+
 void Omnibar::setupCompleter()
 {
     // Set gotoEntry completer for jump history

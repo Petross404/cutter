@@ -14,6 +14,8 @@ StringsModel::StringsModel(QList<StringDescription> *strings, QObject *parent)
 {
 }
 
+StringsModel::~StringsModel() = default;
+
 int StringsModel::rowCount(const QModelIndex &) const
 {
     return strings->count();
@@ -103,6 +105,8 @@ StringsProxyModel::StringsProxyModel(StringsModel *sourceModel, QObject *parent)
     setSortCaseSensitivity(Qt::CaseInsensitive);
 }
 
+StringsProxyModel::~StringsProxyModel() = default;
+
 void StringsProxyModel::setSelectedSection(QString section)
 {
     selectedSection = section;
@@ -127,7 +131,7 @@ bool StringsProxyModel::filterAcceptsRow(int row, const QModelIndex &parent) con
 
 bool StringsProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-    auto model = static_cast<StringsModel *>(sourceModel());
+    auto model = dynamic_cast<StringsModel *>(sourceModel());
     auto leftStr = model->description(left);
     auto rightStr = model->description(right);
 
@@ -220,7 +224,7 @@ StringsWidget::StringsWidget(MainWindow *main)
     header->setResizeContentsPrecision(256);
 }
 
-StringsWidget::~StringsWidget() {}
+StringsWidget::~StringsWidget() = default;
 
 void StringsWidget::refreshStrings()
 {

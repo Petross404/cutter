@@ -110,7 +110,7 @@ void HexdumpWidget::onSeekChanged(RVA addr)
     refresh(addr);
 }
 
-HexdumpWidget::~HexdumpWidget() {}
+HexdumpWidget::~HexdumpWidget() = default;
 
 QString HexdumpWidget::getWidgetType()
 {

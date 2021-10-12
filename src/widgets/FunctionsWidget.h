@@ -59,8 +59,8 @@ public:
     };
 
     FunctionModel(QList<FunctionDescription> *functions, QSet<RVA> *importAddresses,
-                  ut64 *mainAdress, bool nested, QFont defaultFont, QFont highlightFont,
-                  QObject *parent = nullptr);
+                  ut64 *mainAdress, bool nested, const QFont &defaultFont,
+                  const QFont &highlightFont, QObject *parent = nullptr);
 
     QModelIndex index(int row, int column,
                       const QModelIndex &parent = QModelIndex()) const override;
@@ -79,7 +79,7 @@ public:
     bool updateCurrentIndex();
 
     void setNested(bool nested);
-    bool isNested() { return nested; }
+    bool isNested() const { return nested; }
 
     RVA address(const QModelIndex &index) const override;
     QString name(const QModelIndex &index) const override;
@@ -103,6 +103,22 @@ protected:
 class FunctionsWidget : public ListDockWidget
 {
     Q_OBJECT
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(FunctionsWidget)                                                        \
+        FunctionsWidget(const FunctionsWidget &w) = delete;                                        \
+        FunctionsWidget &operator=(const FunctionsWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(FunctionsWidget)                                                        \
+        FunctionsWidget(FunctionsWidget &&w) = delete;                                             \
+        FunctionsWidget &operator=(FunctionsWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(FunctionsWidget)                                                   \
+        Q_DISABLE_COPY(FunctionsWidget)                                                            \
+        Q_DISABLE_MOVE(FunctionsWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(FunctionsWidget)
 
 public:
     explicit FunctionsWidget(MainWindow *main);

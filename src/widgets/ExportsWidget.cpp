@@ -11,6 +11,8 @@ ExportsModel::ExportsModel(QList<ExportDescription> *exports, QObject *parent)
 {
 }
 
+ExportsModel::~ExportsModel() = default;
+
 int ExportsModel::rowCount(const QModelIndex &) const
 {
     return exports->count();
@@ -93,6 +95,8 @@ ExportsProxyModel::ExportsProxyModel(ExportsModel *source_model, QObject *parent
     setSortCaseSensitivity(Qt::CaseInsensitive);
 }
 
+ExportsProxyModel::~ExportsProxyModel() = default;
+
 bool ExportsProxyModel::filterAcceptsRow(int row, const QModelIndex &parent) const
 {
     QModelIndex index = sourceModel()->index(row, 0, parent);
@@ -152,7 +156,7 @@ ExportsWidget::ExportsWidget(MainWindow *main) : ListDockWidget(main)
             [this]() { qhelpers::emitColumnChanged(exportsModel, ExportsModel::CommentColumn); });
 }
 
-ExportsWidget::~ExportsWidget() {}
+ExportsWidget::~ExportsWidget() = default;
 
 void ExportsWidget::refreshExports()
 {

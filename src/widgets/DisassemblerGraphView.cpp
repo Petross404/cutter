@@ -587,7 +587,7 @@ QRectF DisassemblerGraphView::getInstrRect(GraphView::GraphBlock &block, RVA add
     if (blockIt == disassembly_blocks.end()) {
         return QRectF();
     }
-    auto &db = blockIt->second;
+    const auto &db = blockIt->second;
     if (db.instrs.empty()) {
         return QRectF();
     }
@@ -596,7 +596,7 @@ QRectF DisassemblerGraphView::getInstrRect(GraphView::GraphBlock &block, RVA add
     size_t firstLineWithAddr = 0;
     size_t currentLine = 0;
     for (size_t i = 0; i < db.instrs.size(); i++) {
-        auto &instr = db.instrs[i];
+        const auto &instr = db.instrs[i];
         if (instr.addr != sequenceAddr) {
             sequenceAddr = instr.addr;
             firstLineWithAddr = currentLine;

@@ -9,6 +9,8 @@ ResourcesModel::ResourcesModel(QList<ResourcesDescription> *resources, QObject *
 {
 }
 
+ResourcesModel::~ResourcesModel() = default;
+
 int ResourcesModel::rowCount(const QModelIndex &) const
 {
     return resources->count();
@@ -121,6 +123,8 @@ ResourcesWidget::ResourcesWidget(MainWindow *main)
     connect(Core(), &CutterCore::commentsChanged, this,
             [this]() { qhelpers::emitColumnChanged(model, ResourcesModel::COMMENT); });
 }
+
+ResourcesWidget::~ResourcesWidget() = default;
 
 void ResourcesWidget::refreshResources()
 {

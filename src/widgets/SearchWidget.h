@@ -18,6 +18,22 @@ class SearchModel : public AddressableItemModel<QAbstractListModel>
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(SearchModel)                                                            \
+        SearchModel(const SearchModel &m) = delete;                                                \
+        SearchModel &operator=(const SearchModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(SearchModel)                                                            \
+        SearchModel(SearchModel &&m) = delete;                                                     \
+        SearchModel &operator=(SearchModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(SearchModel)                                                       \
+        Q_DISABLE_COPY(SearchModel)                                                                \
+        Q_DISABLE_MOVE(SearchModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(SearchModel)
+
     friend SearchWidget;
 
 private:
@@ -28,6 +44,7 @@ public:
     static const int SearchDescriptionRole = Qt::UserRole;
 
     SearchModel(QList<SearchDescription> *search, QObject *parent = nullptr);
+    ~SearchModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -43,8 +60,25 @@ class SearchSortFilterProxyModel : public AddressableFilterProxyModel
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(SearchSortFilterProxyModel)                                             \
+        SearchSortFilterProxyModel(const SearchSortFilterProxyModel &m) = delete;                  \
+        SearchSortFilterProxyModel &operator=(const SearchSortFilterProxyModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(SearchSortFilterProxyModel)                                             \
+        SearchSortFilterProxyModel(SearchSortFilterProxyModel &&m) = delete;                       \
+        SearchSortFilterProxyModel &operator=(SearchSortFilterProxyModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(SearchSortFilterProxyModel)                                        \
+        Q_DISABLE_COPY(SearchSortFilterProxyModel)                                                 \
+        Q_DISABLE_MOVE(SearchSortFilterProxyModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(SearchSortFilterProxyModel)
+
 public:
     SearchSortFilterProxyModel(SearchModel *source_model, QObject *parent = nullptr);
+    ~SearchSortFilterProxyModel() override;
 
 protected:
     bool filterAcceptsRow(int row, const QModelIndex &parent) const override;
@@ -59,9 +93,25 @@ class SearchWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(SearchWidget)                                                           \
+        SearchWidget(const SearchWidget &w) = delete;                                              \
+        SearchWidget &operator=(const SearchWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(SearchWidget)                                                           \
+        SearchWidget(SearchWidget &&w) = delete;                                                   \
+        SearchWidget &operator=(SearchWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(SearchWidget)                                                      \
+        Q_DISABLE_COPY(SearchWidget)                                                               \
+        Q_DISABLE_MOVE(SearchWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(SearchWidget)
+
 public:
     explicit SearchWidget(MainWindow *main);
-    ~SearchWidget();
+    ~SearchWidget() override;
 
 private slots:
     void searchChanged();

@@ -44,7 +44,7 @@ ListDockWidget::ListDockWidget(MainWindow *main, SearchBarPolicy searchBarPolicy
     }
 }
 
-ListDockWidget::~ListDockWidget() {}
+ListDockWidget::~ListDockWidget() = default;
 
 void ListDockWidget::showCount(bool show)
 {

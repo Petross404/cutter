@@ -8,6 +8,8 @@
 
 RelocsModel::RelocsModel(QObject *parent) : AddressableItemModel<QAbstractTableModel>(parent) {}
 
+RelocsModel::~RelocsModel() = default;
+
 int RelocsModel::rowCount(const QModelIndex &parent) const
 {
     return parent.isValid() ? 0 : relocs.count();
@@ -88,6 +90,8 @@ RelocsProxyModel::RelocsProxyModel(RelocsModel *sourceModel, QObject *parent)
     setSortCaseSensitivity(Qt::CaseInsensitive);
 }
 
+RelocsProxyModel::~RelocsProxyModel() = default;
+
 bool RelocsProxyModel::filterAcceptsRow(int row, const QModelIndex &parent) const
 {
     QModelIndex index = sourceModel()->index(row, 0, parent);
@@ -140,7 +144,7 @@ RelocsWidget::RelocsWidget(MainWindow *main)
             [this]() { qhelpers::emitColumnChanged(relocsModel, RelocsModel::CommentColumn); });
 }
 
-RelocsWidget::~RelocsWidget() {}
+RelocsWidget::~RelocsWidget() = default;
 
 void RelocsWidget::refreshRelocs()
 {

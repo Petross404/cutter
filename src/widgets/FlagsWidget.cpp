@@ -194,7 +194,7 @@ FlagsWidget::FlagsWidget(MainWindow *main)
     addAction(ui->actionDelete);
 }
 
-FlagsWidget::~FlagsWidget() {}
+FlagsWidget::~FlagsWidget() = default;
 
 void FlagsWidget::on_flagspaceCombo_currentTextChanged(const QString &arg1)
 {

@@ -11,6 +11,22 @@ class OverviewView : public GraphView
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(OverviewView)                                                           \
+        OverviewView(const OverviewView &w) = delete;                                              \
+        OverviewView &operator=(const OverviewView &w) = delete;
+
+#    define Q_DISABLE_MOVE(OverviewView)                                                           \
+        OverviewView(OverviewView &&w) = delete;                                                   \
+        OverviewView &operator=(OverviewView &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(OverviewView)                                                      \
+        Q_DISABLE_COPY(OverviewView)                                                               \
+        Q_DISABLE_MOVE(OverviewView)
+#endif
+
+    Q_DISABLE_COPY_MOVE(OverviewView)
+
 signals:
     /**
      * @brief signal when mouse is pressed or moved so that

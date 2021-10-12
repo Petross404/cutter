@@ -18,6 +18,8 @@ SectionsModel::SectionsModel(QList<SectionDescription> *sections, QObject *paren
 {
 }
 
+SectionsModel::~SectionsModel() = default;
+
 int SectionsModel::rowCount(const QModelIndex &) const
 {
     return sections->count();
@@ -131,6 +133,8 @@ SectionsProxyModel::SectionsProxyModel(SectionsModel *sourceModel, QObject *pare
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setSortCaseSensitivity(Qt::CaseInsensitive);
 }
+
+SectionsProxyModel::~SectionsProxyModel() = default;
 
 bool SectionsProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
@@ -333,7 +337,7 @@ AbstractAddrDock::AbstractAddrDock(SectionsModel *model, QWidget *parent)
     textColor = ConfigColor("gui.dataoffset");
 }
 
-AbstractAddrDock::~AbstractAddrDock() {}
+AbstractAddrDock::~AbstractAddrDock() = default;
 
 void AbstractAddrDock::updateDock()
 {
@@ -390,7 +394,7 @@ void AbstractAddrDock::addTextItem(QColor color, QPoint pos, QString string)
     addrDockScene->addItem(text);
 }
 
-int AbstractAddrDock::getAdjustedSize(int size, int validMinSize)
+int AbstractAddrDock::getAdjustedSize(int size, int validMinSize) const
 {
     if (size == 0) {
         return size;
@@ -428,7 +432,7 @@ int AbstractAddrDock::getValidMinSize()
     return 0;
 }
 
-void AbstractAddrDock::drawIndicator(QString name, float ratio)
+void AbstractAddrDock::drawIndicator(const QString &name, float ratio)
 {
     RVA offset = Core()->getOffset();
     float padding = addrDockScene->nameHeightMap[name] * ratio;
@@ -452,7 +456,7 @@ AddrDockScene::AddrDockScene(QWidget *parent) : QGraphicsScene(parent)
     disableCenterOn = false;
 }
 
-AddrDockScene::~AddrDockScene() {}
+AddrDockScene::~AddrDockScene() = default;
 
 void AddrDockScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -502,6 +506,8 @@ RawAddrDock::RawAddrDock(SectionsModel *model, QWidget *parent) : AbstractAddrDo
             [=]() { setFeatures(QDockWidget::NoDockWidgetFeatures); });
 }
 
+RawAddrDock::~RawAddrDock() = default;
+
 VirtualAddrDock::VirtualAddrDock(SectionsModel *model, QWidget *parent)
     : AbstractAddrDock(model, parent)
 {
@@ -509,6 +515,8 @@ VirtualAddrDock::VirtualAddrDock(SectionsModel *model, QWidget *parent)
     connect(this, &QDockWidget::featuresChanged, this,
             [=]() { setFeatures(QDockWidget::DockWidgetClosable); });
 }
+
+VirtualAddrDock::~VirtualAddrDock() = default;
 
 void RawAddrDock::updateDock()
 {

@@ -8,6 +8,8 @@ HeadersModel::HeadersModel(QList<HeaderDescription> *headers, QObject *parent)
 {
 }
 
+HeadersModel::~HeadersModel() = default;
+
 int HeadersModel::rowCount(const QModelIndex &) const
 {
     return headers->count();
@@ -134,7 +136,7 @@ HeadersWidget::HeadersWidget(MainWindow *main) : ListDockWidget(main)
             [this]() { qhelpers::emitColumnChanged(headersModel, HeadersModel::CommentColumn); });
 }
 
-HeadersWidget::~HeadersWidget() {}
+HeadersWidget::~HeadersWidget() = default;
 
 void HeadersWidget::refreshHeaders()
 {

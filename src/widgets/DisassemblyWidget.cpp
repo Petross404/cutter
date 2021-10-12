@@ -201,6 +201,8 @@ DisassemblyWidget::DisassemblyWidget(MainWindow *main)
 #undef ADD_ACTION
 }
 
+DisassemblyWidget::~DisassemblyWidget() = default;
+
 void DisassemblyWidget::setPreviewMode(bool previewMode)
 {
     mDisasTextEdit->setContextMenuPolicy(previewMode ? Qt::NoContextMenu : Qt::CustomContextMenu);

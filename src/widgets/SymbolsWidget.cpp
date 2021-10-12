@@ -10,6 +10,8 @@ SymbolsModel::SymbolsModel(QList<SymbolDescription> *symbols, QObject *parent)
 {
 }
 
+SymbolsModel::~SymbolsModel() = default;
+
 int SymbolsModel::rowCount(const QModelIndex &) const
 {
     return symbols->count();
@@ -89,6 +91,8 @@ SymbolsProxyModel::SymbolsProxyModel(SymbolsModel *sourceModel, QObject *parent)
     setSortCaseSensitivity(Qt::CaseInsensitive);
 }
 
+SymbolsProxyModel::~SymbolsProxyModel() = default;
+
 bool SymbolsProxyModel::filterAcceptsRow(int row, const QModelIndex &parent) const
 {
     QModelIndex index = sourceModel()->index(row, 0, parent);
@@ -134,7 +138,7 @@ SymbolsWidget::SymbolsWidget(MainWindow *main) : ListDockWidget(main)
             [this]() { qhelpers::emitColumnChanged(symbolsModel, SymbolsModel::CommentColumn); });
 }
 
-SymbolsWidget::~SymbolsWidget() {}
+SymbolsWidget::~SymbolsWidget() = default;
 
 void SymbolsWidget::refreshSymbols()
 {

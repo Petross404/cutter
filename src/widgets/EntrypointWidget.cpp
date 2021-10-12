@@ -22,7 +22,7 @@ EntrypointWidget::EntrypointWidget(MainWindow *main)
     connect(Core(), &CutterCore::refreshAll, this, &EntrypointWidget::fillEntrypoint);
 }
 
-EntrypointWidget::~EntrypointWidget() {}
+EntrypointWidget::~EntrypointWidget() = default;
 
 void EntrypointWidget::fillEntrypoint()
 {

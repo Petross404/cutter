@@ -17,6 +17,22 @@ class SymbolsModel : public AddressableItemModel<QAbstractListModel>
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(SymbolsModel)                                                           \
+        SymbolsModel(const SymbolsModel &m) = delete;                                              \
+        SymbolsModel &operator=(const SymbolsModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(SymbolsModel)                                                           \
+        SymbolsModel(SymbolsModel &&m) = delete;                                                   \
+        SymbolsModel &operator=(SymbolsModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(SymbolsModel)                                                      \
+        Q_DISABLE_COPY(SymbolsModel)                                                               \
+        Q_DISABLE_MOVE(SymbolsModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(SymbolsModel)
+
     friend SymbolsWidget;
 
 private:
@@ -27,6 +43,7 @@ public:
     enum Role { SymbolDescriptionRole = Qt::UserRole };
 
     SymbolsModel(QList<SymbolDescription> *exports, QObject *parent = nullptr);
+    ~SymbolsModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -43,8 +60,25 @@ class SymbolsProxyModel : public AddressableFilterProxyModel
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(SymbolsProxyModel)                                                      \
+        SymbolsProxyModel(const SymbolsProxyModel &m) = delete;                                    \
+        SymbolsProxyModel &operator=(const SymbolsProxyModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(SymbolsProxyModel)                                                      \
+        SymbolsProxyModel(SymbolsProxyModel &&m) = delete;                                         \
+        SymbolsProxyModel &operator=(SymbolsProxyModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(SymbolsProxyModel)                                                 \
+        Q_DISABLE_COPY(SymbolsProxyModel)                                                          \
+        Q_DISABLE_MOVE(SymbolsProxyModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(SymbolsProxyModel)
+
 public:
     SymbolsProxyModel(SymbolsModel *sourceModel, QObject *parent = nullptr);
+    ~SymbolsProxyModel() override;
 
 protected:
     bool filterAcceptsRow(int row, const QModelIndex &parent) const override;
@@ -55,9 +89,25 @@ class SymbolsWidget : public ListDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(SymbolsWidget)                                                          \
+        SymbolsWidget(const SymbolsWidget &w) = delete;                                            \
+        SymbolsWidget &operator=(const SymbolsWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(SymbolsWidget)                                                          \
+        SymbolsWidget(SymbolsWidget &&w) = delete;                                                 \
+        SymbolsWidget &operator=(SymbolsWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(SymbolsWidget)                                                     \
+        Q_DISABLE_COPY(SymbolsWidget)                                                              \
+        Q_DISABLE_MOVE(SymbolsWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(SymbolsWidget)
+
 public:
     explicit SymbolsWidget(MainWindow *main);
-    ~SymbolsWidget();
+    ~SymbolsWidget() override;
 
 private slots:
     void refreshSymbols();

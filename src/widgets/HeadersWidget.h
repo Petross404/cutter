@@ -24,6 +24,22 @@ class HeadersModel : public AddressableItemModel<QAbstractListModel>
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(HeadersModel)                                                           \
+        HeadersModel(const HeadersModel &m) = delete;                                              \
+        HeadersModel &operator=(const HeadersModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(HeadersModel)                                                           \
+        HeadersModel(HeadersModel &&m) = delete;                                                   \
+        HeadersModel &operator=(HeadersModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(HeadersModel)                                                      \
+        Q_DISABLE_COPY(HeadersModel)                                                               \
+        Q_DISABLE_MOVE(HeadersModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(HeadersModel)
+
     friend HeadersWidget;
 
 private:
@@ -34,6 +50,7 @@ public:
     enum Role { HeaderDescriptionRole = Qt::UserRole };
 
     HeadersModel(QList<HeaderDescription> *headers, QObject *parent = nullptr);
+    ~HeadersModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -62,9 +79,25 @@ class HeadersWidget : public ListDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(HeadersWidget)                                                          \
+        HeadersWidget(const HeadersWidget &w) = delete;                                            \
+        HeadersWidget &operator=(const HeadersWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(HeadersWidget)                                                          \
+        HeadersWidget(HeadersWidget &&w) = delete;                                                 \
+        HeadersWidget &operator=(HeadersWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(HeadersWidget)                                                     \
+        Q_DISABLE_COPY(HeadersWidget)                                                              \
+        Q_DISABLE_MOVE(HeadersWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(HeadersWidget)
+
 public:
     explicit HeadersWidget(MainWindow *main);
-    ~HeadersWidget();
+    ~HeadersWidget() override;
 
 private slots:
     void refreshHeaders();

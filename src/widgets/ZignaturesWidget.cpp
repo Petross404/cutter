@@ -8,6 +8,8 @@ ZignaturesModel::ZignaturesModel(QList<ZignatureDescription> *zignatures, QObjec
 {
 }
 
+ZignaturesModel::~ZignaturesModel() = default;
+
 int ZignaturesModel::rowCount(const QModelIndex &) const
 {
     return zignatures->count();
@@ -82,6 +84,9 @@ ZignaturesProxyModel::ZignaturesProxyModel(ZignaturesModel *sourceModel, QObject
     setSourceModel(sourceModel);
 }
 
+ZignaturesProxyModel::~ZignaturesProxyModel() = default;
+
+
 bool ZignaturesProxyModel::filterAcceptsRow(int row, const QModelIndex &parent) const
 {
     QModelIndex index = sourceModel()->index(row, 0, parent);
@@ -126,7 +131,7 @@ ZignaturesWidget::ZignaturesWidget(MainWindow *main)
     connect(Core(), &CutterCore::refreshAll, this, &ZignaturesWidget::refreshZignatures);
 }
 
-ZignaturesWidget::~ZignaturesWidget() {}
+ZignaturesWidget::~ZignaturesWidget() = default;
 
 void ZignaturesWidget::refreshZignatures()
 {

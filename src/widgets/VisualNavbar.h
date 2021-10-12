@@ -13,6 +13,22 @@ class VisualNavbar : public QToolBar
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(VisualNavbar)                                                           \
+        VisualNavbar(const VisualNavbar &b) = delete;                                              \
+        VisualNavbar &operator=(const VisualNavbar &b) = delete;
+
+#    define Q_DISABLE_MOVE(VisualNavbar)                                                           \
+        VisualNavbar(VisualNavbar &&b) = delete;                                                   \
+        VisualNavbar &operator=(VisualNavbar &&b) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(VisualNavbar)                                                      \
+        Q_DISABLE_COPY(VisualNavbar)                                                               \
+        Q_DISABLE_MOVE(VisualNavbar)
+#endif
+
+    Q_DISABLE_COPY_MOVE(VisualNavbar)
+
     struct XToAddress
     {
         double x_start;
@@ -23,6 +39,7 @@ class VisualNavbar : public QToolBar
 
 public:
     explicit VisualNavbar(MainWindow *main, QWidget *parent = nullptr);
+    ~VisualNavbar() override;
 
 public slots:
     void paintEvent(QPaintEvent *event) override;

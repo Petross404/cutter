@@ -11,6 +11,8 @@ SegmentsModel::SegmentsModel(QList<SegmentDescription> *segments, QObject *paren
 {
 }
 
+SegmentsModel::~SegmentsModel() = default;
+
 int SegmentsModel::rowCount(const QModelIndex &) const
 {
     return segments->count();
@@ -116,6 +118,8 @@ SegmentsProxyModel::SegmentsProxyModel(SegmentsModel *sourceModel, QObject *pare
     setSortCaseSensitivity(Qt::CaseInsensitive);
 }
 
+SegmentsProxyModel::~SegmentsProxyModel() = default;
+
 bool SegmentsProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
     auto leftSegment = left.data(SegmentsModel::SegmentDescriptionRole).value<SegmentDescription>();
@@ -157,7 +161,7 @@ SegmentsWidget::SegmentsWidget(MainWindow *main) : ListDockWidget(main)
             [this]() { qhelpers::emitColumnChanged(segmentsModel, SegmentsModel::CommentColumn); });
 }
 
-SegmentsWidget::~SegmentsWidget() {}
+SegmentsWidget::~SegmentsWidget() = default;
 
 void SegmentsWidget::refreshSegments()
 {

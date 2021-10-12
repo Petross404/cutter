@@ -11,9 +11,25 @@ class GraphWidget : public MemoryDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(GraphWidget)                                                            \
+        GraphWidget(const GraphWidget &w) = delete;                                                \
+        GraphWidget &operator=(const GraphWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(GraphWidget)                                                            \
+        GraphWidget(GraphWidget &&w) = delete;                                                     \
+        GraphWidget &operator=(GraphWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(GraphWidget)                                                       \
+        Q_DISABLE_COPY(GraphWidget)                                                                \
+        Q_DISABLE_MOVE(GraphWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(GraphWidget)
+
 public:
     explicit GraphWidget(MainWindow *main);
-    ~GraphWidget() override {}
+    ~GraphWidget() override;
 
     DisassemblerGraphView *getGraphView() const;
 

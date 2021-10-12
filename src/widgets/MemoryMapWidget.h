@@ -68,9 +68,25 @@ class MemoryMapWidget : public ListDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(MemoryMapWidget)                                                        \
+        MemoryMapWidget(const MemoryMapWidget &w) = delete;                                        \
+        MemoryMapWidget &operator=(const MemoryMapWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(MemoryMapWidget)                                                        \
+        MemoryMapWidget(MemoryMapWidget &&w) = delete;                                             \
+        MemoryMapWidget &operator=(MemoryMapWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(MemoryMapWidget)                                                   \
+        Q_DISABLE_COPY(MemoryMapWidget)                                                            \
+        Q_DISABLE_MOVE(MemoryMapWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(MemoryMapWidget)
+
 public:
     explicit MemoryMapWidget(MainWindow *main);
-    ~MemoryMapWidget();
+    ~MemoryMapWidget() override;
 
 private slots:
 

@@ -70,6 +70,8 @@ VisualNavbar::VisualNavbar(MainWindow *main, QWidget *parent)
     setMouseTracking(true);
 }
 
+VisualNavbar::~VisualNavbar() = default;
+
 unsigned int nextPow2(unsigned int n)
 {
     unsigned int b = 0;

@@ -17,8 +17,8 @@ public:
     };
     enum class Direction { TB, LR };
     GraphvizLayout(LayoutType layoutType, Direction direction = Direction::TB);
-    virtual void CalculateLayout(std::unordered_map<ut64, GraphBlock> &blocks, ut64 entry,
-                                 int &width, int &height) const override;
+    void CalculateLayout(std::unordered_map<ut64, GraphBlock> &blocks, ut64 entry, int &width,
+                         int &height) const override;
 
 private:
     Direction direction;

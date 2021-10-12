@@ -18,6 +18,23 @@ class StackWidget;
 class StackModel : public QAbstractTableModel
 {
     Q_OBJECT
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(StackModel)                                                             \
+        StackModel(const StackModel &m) = delete;                                                  \
+        StackModel &operator=(const StackModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(StackModel)                                                             \
+        StackModel(StackModel &&m) = delete;                                                       \
+        StackModel &operator=(StackModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(StackModel)                                                        \
+        Q_DISABLE_COPY(StackModel)                                                                 \
+        Q_DISABLE_MOVE(StackModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(StackModel)
+
 public:
     struct Item
     {
@@ -30,6 +47,7 @@ public:
     enum Role { StackDescriptionRole = Qt::UserRole };
 
     StackModel(QObject *parent = nullptr);
+    ~StackModel() override;
 
     void reload();
 
@@ -52,9 +70,25 @@ class StackWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(StackWidget)                                                            \
+        StackWidget(const StackWidget &w) = delete;                                                \
+        StackWidget &operator=(const StackWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(StackWidget)                                                            \
+        StackWidget(StackWidget &&w) = delete;                                                     \
+        StackWidget &operator=(StackWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(StackWidget)                                                       \
+        Q_DISABLE_COPY(StackWidget)                                                                \
+        Q_DISABLE_MOVE(StackWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(StackWidget)
+
 public:
     explicit StackWidget(MainWindow *main);
-    ~StackWidget();
+    ~StackWidget() override;
 
 private slots:
     void updateContents();

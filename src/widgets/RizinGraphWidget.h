@@ -37,8 +37,26 @@ class RizinGraphWidget;
 class GenericRizinGraphView : public SimpleTextGraphView
 {
     Q_OBJECT
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(GenericRizinGraphView)                                                  \
+        GenericRizinGraphView(const GenericRizinGraphView &w) = delete;                            \
+        GenericRizinGraphView &operator=(const GenericRizinGraphView &w) = delete;
+
+#    define Q_DISABLE_MOVE(GenericRizinGraphView)                                                  \
+        GenericRizinGraphView(GenericRizinGraphView &&w) = delete;                                 \
+        GenericRizinGraphView &operator=(GenericRizinGraphView &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(GenericRizinGraphView)                                             \
+        Q_DISABLE_COPY(GenericRizinGraphView)                                                      \
+        Q_DISABLE_MOVE(GenericRizinGraphView)
+#endif
+
+    Q_DISABLE_COPY_MOVE(GenericRizinGraphView)
+
 public:
     GenericRizinGraphView(RizinGraphWidget *parent, MainWindow *main);
+    ~GenericRizinGraphView() override;
     void setGraphCommand(QString cmd);
     void refreshView() override;
 
@@ -55,9 +73,25 @@ class RizinGraphWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(RizinGraphWidget)                                                       \
+        RizinGraphWidget(const RizinGraphWidget &w) = delete;                                      \
+        RizinGraphWidget &operator=(const RizinGraphWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(RizinGraphWidget)                                                       \
+        RizinGraphWidget(RizinGraphWidget &&w) = delete;                                           \
+        RizinGraphWidget &operator=(RizinGraphWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(RizinGraphWidget)                                                  \
+        Q_DISABLE_COPY(RizinGraphWidget)                                                           \
+        Q_DISABLE_MOVE(RizinGraphWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(RizinGraphWidget)
+
 public:
     explicit RizinGraphWidget(MainWindow *main);
-    ~RizinGraphWidget();
+    ~RizinGraphWidget() override;
 
 private:
     std::unique_ptr<Ui::RizinGraphWidget> ui;

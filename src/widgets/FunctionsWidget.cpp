@@ -22,15 +22,15 @@
 
 namespace {
 
-static const int kMaxTooltipWidth = 400;
-static const int kMaxTooltipDisasmPreviewLines = 10;
-static const int kMaxTooltipHighlightsLines = 5;
+const int kMaxTooltipWidth = 400;
+const int kMaxTooltipDisasmPreviewLines = 10;
+const int kMaxTooltipHighlightsLines = 5;
 
 }
 
 FunctionModel::FunctionModel(QList<FunctionDescription> *functions, QSet<RVA> *importAddresses,
-                             ut64 *mainAdress, bool nested, QFont default_font,
-                             QFont highlight_font, QObject *parent)
+                             ut64 *mainAdress, bool nested, const QFont &default_font,
+                             const QFont &highlight_font, QObject *parent)
     : AddressableItemModel<>(parent),
       functions(functions),
       importAddresses(importAddresses),
@@ -537,7 +537,7 @@ FunctionsWidget::FunctionsWidget(MainWindow *main)
             [this]() { qhelpers::emitColumnChanged(functionModel, FunctionModel::CommentColumn); });
 }
 
-FunctionsWidget::~FunctionsWidget() {}
+FunctionsWidget::~FunctionsWidget() = default;
 
 void FunctionsWidget::refreshTree()
 {

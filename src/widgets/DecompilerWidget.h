@@ -21,12 +21,29 @@ struct DecompiledCodeTextLine;
 class DecompilerWidget : public MemoryDockWidget
 {
     Q_OBJECT
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(DecompilerWidget)                                                       \
+        DecompilerWidget(const DecompilerWidget &w) = delete;                                      \
+        DecompilerWidget &operator=(const DecompilerWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(DecompilerWidget)                                                       \
+        DecompilerWidget(DecompilerWidget &&w) = delete;                                           \
+        DecompilerWidget &operator=(DecompilerWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(DecompilerWidget)                                                  \
+        Q_DISABLE_COPY(DecompilerWidget)                                                           \
+        Q_DISABLE_MOVE(DecompilerWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(DecompilerWidget)
+
 protected:
     DecompilerContextMenu *mCtxMenu;
 
 public:
     explicit DecompilerWidget(MainWindow *main);
-    ~DecompilerWidget();
+    ~DecompilerWidget() override;
     static QString getWidgetType();
 public slots:
     void showDecompilerContextMenu(const QPoint &pt);

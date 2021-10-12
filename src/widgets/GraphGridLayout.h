@@ -19,7 +19,7 @@ public:
     };
 
     GraphGridLayout(LayoutType layoutType = LayoutType::Medium);
-    virtual void CalculateLayout(Graph &blocks, ut64 entry, int &width, int &height) const override;
+    void CalculateLayout(Graph &blocks, ut64 entry, int &width, int &height) const override;
     void setTightSubtreePlacement(bool enabled) { tightSubtreePlacement = enabled; }
     void setParentBetweenDirectChild(bool enabled) { parentBetweenDirectChild = enabled; }
     void setverticalBlockAlignmentMiddle(bool enabled) { verticalBlockAlignmentMiddle = enabled; }

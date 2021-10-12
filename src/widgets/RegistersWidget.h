@@ -20,9 +20,25 @@ class RegistersWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(RegistersWidget)                                                        \
+        RegistersWidget(const RegistersWidget &w) = delete;                                        \
+        RegistersWidget &operator=(const RegistersWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(RegistersWidget)                                                        \
+        RegistersWidget(RegistersWidget &&w) = delete;                                             \
+        RegistersWidget &operator=(RegistersWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(RegistersWidget)                                                   \
+        Q_DISABLE_COPY(RegistersWidget)                                                            \
+        Q_DISABLE_MOVE(RegistersWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(RegistersWidget)
+
 public:
     explicit RegistersWidget(MainWindow *main);
-    ~RegistersWidget();
+    ~RegistersWidget() override;
 
 private slots:
     void updateContents();

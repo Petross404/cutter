@@ -56,6 +56,8 @@ GraphWidget::GraphWidget(MainWindow *main) : MemoryDockWidget(MemoryWidgetType::
     graphView->installEventFilter(this);
 }
 
+GraphWidget::~GraphWidget() = default;
+
 QWidget *GraphWidget::widgetToFocusOnRaise()
 {
     return graphView;

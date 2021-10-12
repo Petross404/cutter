@@ -28,6 +28,23 @@ class QSyntaxHighlighter;
 class HexdumpWidget : public MemoryDockWidget
 {
     Q_OBJECT
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(HexdumpWidget)                                                          \
+        HexdumpWidget(const HexdumpWidget &w) = delete;                                            \
+        HexdumpWidget &operator=(const HexdumpWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(HexdumpWidget)                                                          \
+        HexdumpWidget(HexdumpWidget &&w) = delete;                                                 \
+        HexdumpWidget &operator=(HexdumpWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(HexdumpWidget)                                                     \
+        Q_DISABLE_COPY(HexdumpWidget)                                                              \
+        Q_DISABLE_MOVE(HexdumpWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(HexdumpWidget)
+
 public:
     explicit HexdumpWidget(MainWindow *main);
     ~HexdumpWidget() override;

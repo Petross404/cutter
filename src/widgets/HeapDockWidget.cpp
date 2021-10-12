@@ -17,10 +17,7 @@ HeapDockWidget::HeapDockWidget(MainWindow *main)
     onAllocatorSelected(0);
 }
 
-HeapDockWidget::~HeapDockWidget()
-{
-    delete ui;
-}
+HeapDockWidget::~HeapDockWidget() = default;
 
 void HeapDockWidget::onAllocatorSelected(int index)
 {

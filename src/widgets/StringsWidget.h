@@ -24,6 +24,22 @@ class StringsModel : public AddressableItemModel<QAbstractListModel>
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(StringsModel)                                                           \
+        StringsModel(const StringsModel &m) = delete;                                              \
+        StringsModel &operator=(const StringsModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(StringsModel)                                                           \
+        StringsModel(StringsModel &&m) = delete;                                                   \
+        StringsModel &operator=(StringsModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(StringsModel)                                                      \
+        Q_DISABLE_COPY(StringsModel)                                                               \
+        Q_DISABLE_MOVE(StringsModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(StringsModel)
+
     friend StringsWidget;
 
 private:
@@ -43,6 +59,7 @@ public:
     static const int StringDescriptionRole = Qt::UserRole;
 
     StringsModel(QList<StringDescription> *strings, QObject *parent = nullptr);
+    ~StringsModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -59,8 +76,26 @@ class StringsProxyModel : public AddressableFilterProxyModel
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(StringsProxyModel)                                                      \
+        StringsProxyModel(const StringsProxyModel &w) = delete;                                    \
+        StringsProxyModel &operator=(const StringsProxyModel &w) = delete;
+
+#    define Q_DISABLE_MOVE(StringsProxyModel)                                                      \
+        StringsProxyModel(StringsProxyModel &&w) = delete;                                         \
+        StringsProxyModel &operator=(StringsProxyModel &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(StringsProxyModel)                                                 \
+        Q_DISABLE_COPY(StringsProxyModel)                                                          \
+        Q_DISABLE_MOVE(StringsProxyModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(StringsProxyModel)
+
 public:
     StringsProxyModel(StringsModel *sourceModel, QObject *parent = nullptr);
+    ~StringsProxyModel() override;
+
     void setSelectedSection(QString section);
 
 protected:
@@ -74,9 +109,25 @@ class StringsWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(StringsWidget)                                                          \
+        StringsWidget(const StringsWidget &w) = delete;                                            \
+        StringsWidget &operator=(const StringsWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(StringsWidget)                                                          \
+        StringsWidget(StringsWidget &&w) = delete;                                                 \
+        StringsWidget &operator=(StringsWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(StringsWidget)                                                     \
+        Q_DISABLE_COPY(StringsWidget)                                                              \
+        Q_DISABLE_MOVE(StringsWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(StringsWidget)
+
 public:
     explicit StringsWidget(MainWindow *main);
-    ~StringsWidget();
+    ~StringsWidget() override;
 
 private slots:
     void refreshStrings();

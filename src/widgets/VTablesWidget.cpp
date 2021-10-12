@@ -12,6 +12,8 @@ VTableModel::VTableModel(QList<VTableDescription> *vtables, QObject *parent)
 {
 }
 
+VTableModel::~VTableModel() = default;
+
 QModelIndex VTableModel::index(int row, int column, const QModelIndex &parent) const
 {
     return createIndex(row, column, (quintptr)parent.isValid() ? parent.row() : -1);
@@ -106,6 +108,8 @@ VTableSortFilterProxyModel::VTableSortFilterProxyModel(VTableModel *model, QObje
 #endif
 }
 
+VTableSortFilterProxyModel::~VTableSortFilterProxyModel() = default;
+
 bool VTableSortFilterProxyModel::filterAcceptsRow(int source_row,
                                                   const QModelIndex &source_parent) const
 {
@@ -166,7 +170,7 @@ VTablesWidget::VTablesWidget(MainWindow *main)
     refreshDeferrer = createRefreshDeferrer([this]() { refreshVTables(); });
 }
 
-VTablesWidget::~VTablesWidget() {}
+VTablesWidget::~VTablesWidget() = default;
 
 void VTablesWidget::refreshVTables()
 {

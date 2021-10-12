@@ -19,6 +19,23 @@
 class SimpleTextGraphView : public CutterGraphView
 {
     Q_OBJECT
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(SimpleTextGraphView)                                                    \
+        SimpleTextGraphView(const SimpleTextGraphView &m) = delete;                                \
+        SimpleTextGraphView &operator=(const SimpleTextGraphView &m) = delete;
+
+#    define Q_DISABLE_MOVE(SimpleTextGraphView)                                                    \
+        SimpleTextGraphView(SimpleTextGraphView &&m) = delete;                                     \
+        SimpleTextGraphView &operator=(SimpleTextGraphView &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(SimpleTextGraphView)                                               \
+        Q_DISABLE_COPY(SimpleTextGraphView)                                                        \
+        Q_DISABLE_MOVE(SimpleTextGraphView)
+#endif
+
+    Q_DISABLE_COPY_MOVE(SimpleTextGraphView)
+
 public:
     SimpleTextGraphView(QWidget *parent, MainWindow *mainWindow);
     ~SimpleTextGraphView() override;

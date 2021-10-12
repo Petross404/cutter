@@ -24,6 +24,22 @@ class CUTTER_EXPORT ListDockWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(ListDockWidget)                                                         \
+        ListDockWidget(const ListDockWidget &w) = delete;                                          \
+        ListDockWidget &operator=(const ListDockWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(ListDockWidget)                                                         \
+        ListDockWidget(ListDockWidget &&w) = delete;                                               \
+        ListDockWidget &operator=(ListDockWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(ListDockWidget)                                                    \
+        Q_DISABLE_COPY(ListDockWidget)                                                             \
+        Q_DISABLE_MOVE(ListDockWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(ListDockWidget)
+
 public:
     enum class SearchBarPolicy {
         ShowByDefault,

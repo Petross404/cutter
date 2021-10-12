@@ -22,6 +22,22 @@ class ExportsModel : public AddressableItemModel<QAbstractListModel>
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(ExportsModel)                                                           \
+        ExportsModel(const ExportsModel &m) = delete;                                              \
+        ExportsModel &operator=(const ExportsModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(ExportsModel)                                                           \
+        ExportsModel(ExportsModel &&m) = delete;                                                   \
+        ExportsModel &operator=(ExportsModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(ExportsModel)                                                      \
+        Q_DISABLE_COPY(ExportsModel)                                                               \
+        Q_DISABLE_MOVE(ExportsModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(ExportsModel)
+
     friend ExportsWidget;
 
 private:
@@ -39,6 +55,7 @@ public:
     enum Role { ExportDescriptionRole = Qt::UserRole };
 
     ExportsModel(QList<ExportDescription> *exports, QObject *parent = nullptr);
+    ~ExportsModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -55,8 +72,25 @@ class ExportsProxyModel : public AddressableFilterProxyModel
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(ExportsProxyModel)                                                      \
+        ExportsProxyModel(const ExportsProxyModel &m) = delete;                                    \
+        ExportsProxyModel &operator=(const ExportsProxyModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(ExportsProxyModel)                                                      \
+        ExportsProxyModel(ExportsProxyModel &&m) = delete;                                         \
+        ExportsProxyModel &operator=(ExportsProxyModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(ExportsProxyModel)                                                 \
+        Q_DISABLE_COPY(ExportsProxyModel)                                                          \
+        Q_DISABLE_MOVE(ExportsProxyModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(ExportsProxyModel)
+
 public:
     ExportsProxyModel(ExportsModel *source_model, QObject *parent = nullptr);
+    ~ExportsProxyModel() override;
 
 protected:
     bool filterAcceptsRow(int row, const QModelIndex &parent) const override;
@@ -67,9 +101,25 @@ class ExportsWidget : public ListDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(ExportsWidget)                                                          \
+        ExportsWidget(const ExportsWidget &w) = delete;                                            \
+        ExportsWidget &operator=(const ExportsWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(ExportsWidget)                                                          \
+        ExportsWidget(ExportsWidget &&w) = delete;                                                 \
+        ExportsWidget &operator=(ExportsWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(ExportsWidget)                                                     \
+        Q_DISABLE_COPY(ExportsWidget)                                                              \
+        Q_DISABLE_MOVE(ExportsWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(ExportsWidget)
+
 public:
     explicit ExportsWidget(MainWindow *main);
-    ~ExportsWidget();
+    ~ExportsWidget() override;
 
 private slots:
     void refreshExports();

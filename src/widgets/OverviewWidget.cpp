@@ -25,7 +25,7 @@ OverviewWidget::OverviewWidget(MainWindow *main) : CutterDockWidget(main)
     connect(shortcut_zoom_out, &QShortcut::activated, this, [this]() { zoomTarget(-1); });
 }
 
-OverviewWidget::~OverviewWidget() {}
+OverviewWidget::~OverviewWidget() = default;
 
 void OverviewWidget::resizeEvent(QResizeEvent *event)
 {

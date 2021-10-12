@@ -247,6 +247,8 @@ DebugActions::DebugActions(QToolBar *toolBar, MainWindow *main) : QObject(main),
     chooseThemeIcons();
 }
 
+DebugActions::~DebugActions() = default;
+
 void DebugActions::setButtonVisibleIfMainExists()
 {
     RzCoreLocked core(Core()->core());

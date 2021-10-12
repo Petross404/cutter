@@ -25,6 +25,22 @@ class TypesModel : public QAbstractListModel
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(TypesModel)                                                             \
+        TypesModel(const TypesModel &m) = delete;                                                  \
+        TypesModel &operator=(const TypesModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(TypesModel)                                                             \
+        TypesModel(TypesModel &&m) = delete;                                                       \
+        TypesModel &operator=(TypesModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(TypesModel)                                                        \
+        Q_DISABLE_COPY(TypesModel)                                                                 \
+        Q_DISABLE_MOVE(TypesModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(TypesModel)
+
     friend TypesWidget;
 
 private:
@@ -35,6 +51,7 @@ public:
     static const int TypeDescriptionRole = Qt::UserRole;
 
     TypesModel(QList<TypeDescription> *types, QObject *parent = nullptr);
+    ~TypesModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -50,8 +67,26 @@ class TypesSortFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(TypesSortFilterProxyModel)                                              \
+        TypesSortFilterProxyModel(const TypesSortFilterProxyModel &w) = delete;                    \
+        TypesSortFilterProxyModel &operator=(const TypesSortFilterProxyModel &w) = delete;
+
+#    define Q_DISABLE_MOVE(TypesSortFilterProxyModel)                                              \
+        TypesSortFilterProxyModel(TypesSortFilterProxyModel &&w) = delete;                         \
+        TypesSortFilterProxyModel &operator=(TypesSortFilterProxyModel &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(TypesSortFilterProxyModel)                                         \
+        Q_DISABLE_COPY(TypesSortFilterProxyModel)                                                  \
+        Q_DISABLE_MOVE(TypesSortFilterProxyModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(TypesSortFilterProxyModel)
+
 public:
     TypesSortFilterProxyModel(TypesModel *source_model, QObject *parent = nullptr);
+    ~TypesSortFilterProxyModel() override;
+
     void setCategory(QString category);
 
 protected:
@@ -65,9 +100,25 @@ class TypesWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(TypesWidget)                                                            \
+        TypesWidget(const TypesWidget &w) = delete;                                                \
+        TypesWidget &operator=(const TypesWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(TypesWidget)                                                            \
+        TypesWidget(TypesWidget &&w) = delete;                                                     \
+        TypesWidget &operator=(TypesWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(TypesWidget)                                                       \
+        Q_DISABLE_COPY(TypesWidget)                                                                \
+        Q_DISABLE_MOVE(TypesWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(TypesWidget)
+
 public:
     explicit TypesWidget(MainWindow *main);
-    ~TypesWidget();
+    ~TypesWidget() override;
 
 private slots:
     void refreshTypes();

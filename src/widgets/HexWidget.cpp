@@ -185,7 +185,7 @@ HexWidget::HexWidget(QWidget *parent)
     updateColors();
 }
 
-HexWidget::~HexWidget() {}
+HexWidget::~HexWidget() = default;
 
 void HexWidget::setMonospaceFont(const QFont &font)
 {

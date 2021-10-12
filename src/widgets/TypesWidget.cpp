@@ -14,6 +14,8 @@ TypesModel::TypesModel(QList<TypeDescription> *types, QObject *parent)
 {
 }
 
+TypesModel::~TypesModel() = default;
+
 int TypesModel::rowCount(const QModelIndex &) const
 {
     return types->count();
@@ -90,6 +92,8 @@ TypesSortFilterProxyModel::TypesSortFilterProxyModel(TypesModel *source_model, Q
 {
     setSourceModel(source_model);
 }
+
+TypesSortFilterProxyModel::~TypesSortFilterProxyModel() = default;
 
 void TypesSortFilterProxyModel::setCategory(QString category)
 {
@@ -191,7 +195,7 @@ TypesWidget::TypesWidget(MainWindow *main)
             &TypesWidget::typeItemDoubleClicked);
 }
 
-TypesWidget::~TypesWidget() {}
+TypesWidget::~TypesWidget() = default;
 
 void TypesWidget::refreshTypes()
 {

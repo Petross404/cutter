@@ -13,8 +13,25 @@ class DebugActions : public QObject
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(DebugActions)                                                           \
+        DebugActions(const DebugActions &w) = delete;                                              \
+        DebugActions &operator=(const DebugActions &w) = delete;
+
+#    define Q_DISABLE_MOVE(DebugActions)                                                           \
+        DebugActions(DebugActions &&w) = delete;                                                   \
+        DebugActions &operator=(DebugActions &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(DebugActions)                                                      \
+        Q_DISABLE_COPY(DebugActions)                                                               \
+        Q_DISABLE_MOVE(DebugActions)
+#endif
+
+    Q_DISABLE_COPY_MOVE(DebugActions)
+
 public:
     explicit DebugActions(QToolBar *toolBar, MainWindow *main);
+    ~DebugActions() override;
 
     void addToToolBar(QToolBar *toolBar);
 

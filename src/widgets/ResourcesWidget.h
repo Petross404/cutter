@@ -14,6 +14,22 @@ class ResourcesModel : public AddressableItemModel<QAbstractListModel>
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(ResourcesModel)                                                         \
+        ResourcesModel(const ResourcesModel &m) = delete;                                          \
+        ResourcesModel &operator=(const ResourcesModel &m) = delete;
+
+#    define Q_DISABLE_MOVE(ResourcesModel)                                                         \
+        ResourcesModel(ResourcesModel &&m) = delete;                                               \
+        ResourcesModel &operator=(ResourcesModel &&m) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(ResourcesModel)                                                    \
+        Q_DISABLE_COPY(ResourcesModel)                                                             \
+        Q_DISABLE_MOVE(ResourcesModel)
+#endif
+
+    Q_DISABLE_COPY_MOVE(ResourcesModel)
+
     friend ResourcesWidget;
 
 private:
@@ -22,6 +38,7 @@ private:
 public:
     enum Columns { INDEX = 0, NAME, VADDR, TYPE, SIZE, LANG, COMMENT, COUNT };
     explicit ResourcesModel(QList<ResourcesDescription> *resources, QObject *parent = nullptr);
+    ~ResourcesModel() override;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -37,6 +54,22 @@ class ResourcesWidget : public ListDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(ResourcesWidget)                                                        \
+        ResourcesWidget(const ResourcesWidget &w) = delete;                                        \
+        ResourcesWidget &operator=(const ResourcesWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(ResourcesWidget)                                                        \
+        ResourcesWidget(ResourcesWidget &&w) = delete;                                             \
+        ResourcesWidget &operator=(ResourcesWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(ResourcesWidget)                                                   \
+        Q_DISABLE_COPY(ResourcesWidget)                                                            \
+        Q_DISABLE_MOVE(ResourcesWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(ResourcesWidget)
+
 private:
     ResourcesModel *model;
     AddressableFilterProxyModel *filterModel;
@@ -44,6 +77,7 @@ private:
 
 public:
     explicit ResourcesWidget(MainWindow *main);
+    ~ResourcesWidget() override;
 
 private slots:
     void refreshResources();

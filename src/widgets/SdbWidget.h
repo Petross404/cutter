@@ -24,6 +24,12 @@ class SdbWidget : public CutterDockWidget
 #    define Q_DISABLE_MOVE(SdbWidget)                                                              \
         SdbWidget(SdbWidget &&s) = delete;                                                         \
         SdbWidget &operator=(SdbWidget &&s) = delete;
+        SdbWidget(const SdbWidget &w) = delete;                                                    \
+        SdbWidget &operator=(const SdbWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(SdbWidget)                                                              \
+        SdbWidget(SdbWidget &&w) = delete;                                                         \
+        SdbWidget &operator=(SdbWidget &&w) = delete;
 
 #    define Q_DISABLE_COPY_MOVE(SdbWidget)                                                         \
         Q_DISABLE_COPY(SdbWidget)                                                                  \

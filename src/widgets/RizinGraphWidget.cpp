@@ -49,7 +49,7 @@ RizinGraphWidget::RizinGraphWidget(MainWindow *main)
     typeChanged();
 }
 
-RizinGraphWidget::~RizinGraphWidget() {}
+RizinGraphWidget::~RizinGraphWidget() = default;
 
 void RizinGraphWidget::typeChanged()
 {
@@ -73,6 +73,8 @@ GenericRizinGraphView::GenericRizinGraphView(RizinGraphWidget *parent, MainWindo
     connect(&refreshDeferrer, &RefreshDeferrer::refreshNow, this,
             &GenericRizinGraphView::refreshView);
 }
+
+GenericRizinGraphView::~GenericRizinGraphView() = default;
 
 void GenericRizinGraphView::setGraphCommand(QString cmd)
 {

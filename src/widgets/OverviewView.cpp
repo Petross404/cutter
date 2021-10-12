@@ -33,7 +33,7 @@ void OverviewView::centreRect()
     initialDiff = QPointF(w / 2, h / 2);
 }
 
-OverviewView::~OverviewView() {}
+OverviewView::~OverviewView() = default;
 
 void OverviewView::scaleAndCenter()
 {

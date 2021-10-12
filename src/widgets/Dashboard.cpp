@@ -28,7 +28,7 @@ Dashboard::Dashboard(MainWindow *main) : CutterDockWidget(main), ui(new Ui::Dash
     connect(Core(), &CutterCore::refreshAll, this, &Dashboard::updateContents);
 }
 
-Dashboard::~Dashboard() {}
+Dashboard::~Dashboard() = default;
 
 void Dashboard::updateContents()
 {

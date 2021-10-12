@@ -41,7 +41,7 @@ GraphView::GraphView(QWidget *parent)
     setGraphLayout(makeGraphLayout(Layout::GridMedium));
 }
 
-GraphView::~GraphView() {}
+GraphView::~GraphView() = default;
 
 // Callbacks
 
@@ -415,7 +415,7 @@ void GraphView::paint(QPainter &p, QPoint offset, QRect viewport, qreal scale, b
     }
 }
 
-void GraphView::saveAsBitmap(QString path, const char *format, double scaler, bool transparent)
+void GraphView::saveAsBitmap(const QString &path, const char *format, double scaler, bool transparent)
 {
     QImage image(width * scaler, height * scaler, QImage::Format_ARGB32);
     if (transparent) {
@@ -610,7 +610,7 @@ std::unique_ptr<GraphLayout> GraphView::makeGraphLayout(GraphView::Layout layout
     return result;
 }
 
-void GraphView::addBlock(GraphView::GraphBlock block)
+void GraphView::addBlock(const GraphView::GraphBlock &block)
 {
     blocks[block.entry] = block;
 }

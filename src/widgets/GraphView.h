@@ -31,6 +31,22 @@ class GraphView : public QAbstractScrollArea
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(GraphView)                                                              \
+        GraphView(const GraphView &w) = delete;                                                    \
+        GraphView &operator=(const GraphView &w) = delete;
+
+#    define Q_DISABLE_MOVE(GraphView)                                                              \
+        GraphView(GraphView &&w) = delete;                                                         \
+        GraphView &operator=(GraphView &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(GraphView)                                                         \
+        Q_DISABLE_COPY(GraphView)                                                                  \
+        Q_DISABLE_MOVE(GraphView)
+#endif
+
+    Q_DISABLE_COPY_MOVE(GraphView)
+
 signals:
     void viewOffsetChanged(QPoint offset);
     void viewScaleChanged(qreal scale);
@@ -97,7 +113,7 @@ public:
 
     void paint(QPainter &p, QPoint offset, QRect area, qreal scale = 1.0, bool interactive = true);
 
-    void saveAsBitmap(QString path, const char *format = nullptr, double scaler = 1.0,
+    void saveAsBitmap(const QString &path, const char *format = nullptr, double scaler = 1.0,
                       bool transparent = false);
     void saveAsSvg(QString path);
 
@@ -119,7 +135,7 @@ protected:
 
     void setCacheDirty() { cacheDirty = true; }
 
-    void addBlock(GraphView::GraphBlock block);
+    void addBlock(const GraphView::GraphBlock &block);
     void setEntry(ut64 e);
 
     // Callbacks that should be overridden

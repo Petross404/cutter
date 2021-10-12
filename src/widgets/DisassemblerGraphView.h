@@ -20,6 +20,22 @@ class DisassemblerGraphView : public CutterGraphView
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(DisassemblerGraphView)                                                  \
+        DisassemblerGraphView(const DisassemblerGraphView &v) = delete;                            \
+        DisassemblerGraphView &operator=(const DisassemblerGraphView &v) = delete;
+
+#    define Q_DISABLE_MOVE(DisassemblerGraphView)                                                  \
+        DisassemblerGraphView(DisassemblerGraphView &&v) = delete;                                 \
+        DisassemblerGraphView &operator=(DisassemblerGraphView &&v) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(DisassemblerGraphView)                                             \
+        Q_DISABLE_COPY(DisassemblerGraphView)                                                      \
+        Q_DISABLE_MOVE(DisassemblerGraphView)
+#endif
+
+    Q_DISABLE_COPY_MOVE(DisassemblerGraphView)
+
     struct Text
     {
         std::vector<RichTextPainter::List> lines;
@@ -93,25 +109,22 @@ public:
                           QList<QAction *> additionalMenuAction);
     ~DisassemblerGraphView() override;
     std::unordered_map<ut64, DisassemblyBlock> disassembly_blocks;
-    virtual void drawBlock(QPainter &p, GraphView::GraphBlock &block, bool interactive) override;
-    virtual void blockClicked(GraphView::GraphBlock &block, QMouseEvent *event,
-                              QPoint pos) override;
-    virtual void blockDoubleClicked(GraphView::GraphBlock &block, QMouseEvent *event,
-                                    QPoint pos) override;
-    virtual bool helpEvent(QHelpEvent *event) override;
-    virtual void blockHelpEvent(GraphView::GraphBlock &block, QHelpEvent *event,
-                                QPoint pos) override;
-    virtual GraphView::EdgeConfiguration edgeConfiguration(GraphView::GraphBlock &from,
-                                                           GraphView::GraphBlock *to,
-                                                           bool interactive) override;
-    virtual void blockTransitionedTo(GraphView::GraphBlock *to) override;
+    void drawBlock(QPainter &p, GraphView::GraphBlock &block, bool interactive) override;
+    void blockClicked(GraphView::GraphBlock &block, QMouseEvent *event, QPoint pos) override;
+    void blockDoubleClicked(GraphView::GraphBlock &block, QMouseEvent *event, QPoint pos) override;
+    bool helpEvent(QHelpEvent *event) override;
+    void blockHelpEvent(GraphView::GraphBlock &block, QHelpEvent *event, QPoint pos) override;
+    GraphView::EdgeConfiguration edgeConfiguration(GraphView::GraphBlock &from,
+                                                   GraphView::GraphBlock *to,
+                                                   bool interactive) override;
+    void blockTransitionedTo(GraphView::GraphBlock *to) override;
 
     void loadCurrentGraph();
     QString windowTitle;
 
-    int getWidth() { return width; }
-    int getHeight() { return height; }
-    std::unordered_map<ut64, GraphBlock> getBlocks() { return blocks; }
+    int getWidth() const { return width; }
+    int getHeight() const { return height; }
+    std::unordered_map<ut64, GraphBlock> getBlocks() const { return blocks; }
     using EdgeConfigurationMapping = std::map<std::pair<ut64, ut64>, EdgeConfiguration>;
     EdgeConfigurationMapping getEdgeConfigurations();
 
@@ -189,7 +202,7 @@ signals:
     void nameChanged(const QString &name);
 
 public:
-    bool isGraphEmpty() { return emptyGraph; }
+    bool isGraphEmpty() const { return emptyGraph; }
 };
 
 #endif // DISASSEMBLERGRAPHVIEW_H

@@ -28,6 +28,8 @@ bool MemoryDockWidget::tryRaiseMemoryWidget()
     return true;
 }
 
+MemoryDockWidget::~MemoryDockWidget() = default;
+
 bool MemoryDockWidget::eventFilter(QObject *object, QEvent *event)
 {
     if (mainWindow && event->type() == QEvent::FocusIn) {

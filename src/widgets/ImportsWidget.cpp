@@ -184,7 +184,7 @@ ImportsWidget::ImportsWidget(MainWindow *main)
             [this]() { qhelpers::emitColumnChanged(importsModel, ImportsModel::CommentColumn); });
 }
 
-ImportsWidget::~ImportsWidget() {}
+ImportsWidget::~ImportsWidget() = default;
 
 void ImportsWidget::refreshImports()
 {

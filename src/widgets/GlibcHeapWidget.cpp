@@ -49,10 +49,7 @@ GlibcHeapWidget::GlibcHeapWidget(MainWindow *main, QWidget *parent)
             [this]() { updateContents(); });
 }
 
-GlibcHeapWidget::~GlibcHeapWidget()
-{
-    delete ui;
-}
+GlibcHeapWidget::~GlibcHeapWidget() = default;
 
 GlibcHeapModel::GlibcHeapModel(QObject *parent) : QAbstractTableModel(parent) {}
 

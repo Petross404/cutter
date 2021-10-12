@@ -96,9 +96,25 @@ class ImportsWidget : public ListDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(ImportsWidget)                                                          \
+        ImportsWidget(const ImportsWidget &w) = delete;                                            \
+        ImportsWidget &operator=(const ImportsWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(ImportsWidget)                                                          \
+        ImportsWidget(ImportsWidget &&w) = delete;                                                 \
+        ImportsWidget &operator=(ImportsWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(ImportsWidget)                                                     \
+        Q_DISABLE_COPY(ImportsWidget)                                                              \
+        Q_DISABLE_MOVE(ImportsWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(ImportsWidget)
+
 public:
     explicit ImportsWidget(MainWindow *main);
-    ~ImportsWidget();
+    ~ImportsWidget() override;
 
 private slots:
     void refreshImports();

@@ -20,9 +20,25 @@ class Dashboard : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(Dashboard)                                                              \
+        Dashboard(const Dashboard &w) = delete;                                                    \
+        Dashboard &operator=(const Dashboard &w) = delete;
+
+#    define Q_DISABLE_MOVE(Dashboard)                                                              \
+        Dashboard(Dashboard &&w) = delete;                                                         \
+        Dashboard &operator=(Dashboard &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(Dashboard)                                                         \
+        Q_DISABLE_COPY(Dashboard)                                                                  \
+        Q_DISABLE_MOVE(Dashboard)
+#endif
+
+    Q_DISABLE_COPY_MOVE(Dashboard)
+
 public:
     explicit Dashboard(MainWindow *main);
-    ~Dashboard();
+    ~Dashboard() override;
 
 private slots:
     void updateContents();

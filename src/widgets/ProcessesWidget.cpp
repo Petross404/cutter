@@ -62,7 +62,7 @@ ProcessesWidget::ProcessesWidget(MainWindow *main)
     connect(ui->viewProcesses, &QTableView::activated, this, &ProcessesWidget::onActivated);
 }
 
-ProcessesWidget::~ProcessesWidget() {}
+ProcessesWidget::~ProcessesWidget() = default;
 
 void ProcessesWidget::updateContents()
 {
@@ -186,6 +186,8 @@ ProcessesFilterModel::ProcessesFilterModel(QObject *parent) : QSortFilterProxyMo
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setSortCaseSensitivity(Qt::CaseInsensitive);
 }
+
+ProcessesFilterModel::~ProcessesFilterModel() = default;
 
 bool ProcessesFilterModel::filterAcceptsRow(int row, const QModelIndex &parent) const
 {

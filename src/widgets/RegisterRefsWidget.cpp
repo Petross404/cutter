@@ -13,6 +13,8 @@ RegisterRefModel::RegisterRefModel(QList<RegisterRefDescription> *registerRefs, 
 {
 }
 
+RegisterRefModel::~RegisterRefModel() = default;
+
 int RegisterRefModel::rowCount(const QModelIndex &) const
 {
     return registerRefs->count();
@@ -84,6 +86,8 @@ RegisterRefProxyModel::RegisterRefProxyModel(RegisterRefModel *sourceModel, QObj
 {
     setSourceModel(sourceModel);
 }
+
+RegisterRefProxyModel::~RegisterRefProxyModel() = default;
 
 bool RegisterRefProxyModel::filterAcceptsRow(int row, const QModelIndex &parent) const
 {

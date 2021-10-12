@@ -17,7 +17,7 @@ QuickFilterView::QuickFilterView(QWidget *parent, bool defaultOn)
     }
 }
 
-QuickFilterView::~QuickFilterView() {}
+QuickFilterView::~QuickFilterView() = default;
 
 void QuickFilterView::showFilter()
 {

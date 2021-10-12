@@ -36,6 +36,8 @@ SearchModel::SearchModel(QList<SearchDescription> *search, QObject *parent)
 {
 }
 
+SearchModel::~SearchModel() = default;
+
 int SearchModel::rowCount(const QModelIndex &) const
 {
     return search->count();
@@ -140,6 +142,8 @@ SearchSortFilterProxyModel::SearchSortFilterProxyModel(SearchModel *source_model
 {
 }
 
+SearchSortFilterProxyModel::~SearchSortFilterProxyModel() = default;
+
 bool SearchSortFilterProxyModel::filterAcceptsRow(int row, const QModelIndex &parent) const
 {
     QModelIndex index = sourceModel()->index(row, 0, parent);
@@ -210,7 +214,7 @@ SearchWidget::SearchWidget(MainWindow *main) : CutterDockWidget(main), ui(new Ui
             [this](int index) { updatePlaceholderText(index); });
 }
 
-SearchWidget::~SearchWidget() {}
+SearchWidget::~SearchWidget() = default;
 
 void SearchWidget::updateSearchBoundaries()
 {

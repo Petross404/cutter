@@ -11,9 +11,25 @@ class OverviewWidget : public CutterDockWidget
 {
     Q_OBJECT
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(OverviewWidget)                                                         \
+        OverviewWidget(const OverviewWidget &w) = delete;                                          \
+        OverviewWidget &operator=(const OverviewWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(OverviewWidget)                                                         \
+        OverviewWidget(OverviewWidget &&w) = delete;                                               \
+        OverviewWidget &operator=(OverviewWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(OverviewWidget)                                                    \
+        Q_DISABLE_COPY(OverviewWidget)                                                             \
+        Q_DISABLE_MOVE(OverviewWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(OverviewWidget)
+
 public:
     explicit OverviewWidget(MainWindow *main);
-    ~OverviewWidget();
+    ~OverviewWidget() override;
 
 private:
     OverviewView *graphView;

@@ -143,6 +143,8 @@ void StackWidget::onCurrentChanged(const QModelIndex &current, const QModelIndex
 
 StackModel::StackModel(QObject *parent) : QAbstractTableModel(parent) {}
 
+StackModel::~StackModel() = default;
+
 void StackModel::reload()
 {
     QList<QJsonObject> stackItems = Core()->getStack();

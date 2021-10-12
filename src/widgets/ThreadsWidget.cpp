@@ -60,7 +60,7 @@ ThreadsWidget::ThreadsWidget(MainWindow *main) : CutterDockWidget(main), ui(new 
     connect(ui->viewThreads, &QTableView::activated, this, &ThreadsWidget::onActivated);
 }
 
-ThreadsWidget::~ThreadsWidget() {}
+ThreadsWidget::~ThreadsWidget() = default;
 
 void ThreadsWidget::updateContents()
 {
@@ -168,6 +168,8 @@ ThreadsFilterModel::ThreadsFilterModel(QObject *parent) : QSortFilterProxyModel(
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setSortCaseSensitivity(Qt::CaseInsensitive);
 }
+
+ThreadsFilterModel::~ThreadsFilterModel() = default;
 
 bool ThreadsFilterModel::filterAcceptsRow(int row, const QModelIndex &parent) const
 {

@@ -22,8 +22,26 @@ class DisassemblyLeftPanel;
 class DisassemblyWidget : public MemoryDockWidget
 {
     Q_OBJECT
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 13, 0)
+#    define Q_DISABLE_COPY(DisassemblyWidget)                                                      \
+        DisassemblyWidget(const DisassemblyWidget &w) = delete;                                    \
+        DisassemblyWidget &operator=(const DisassemblyWidget &w) = delete;
+
+#    define Q_DISABLE_MOVE(DisassemblyWidget)                                                      \
+        DisassemblyWidget(DisassemblyWidget &&w) = delete;                                         \
+        DisassemblyWidget &operator=(DisassemblyWidget &&w) = delete;
+
+#    define Q_DISABLE_COPY_MOVE(DisassemblyWidget)                                                 \
+        Q_DISABLE_COPY(DisassemblyWidget)                                                          \
+        Q_DISABLE_MOVE(DisassemblyWidget)
+#endif
+
+    Q_DISABLE_COPY_MOVE(DisassemblyWidget)
+
 public:
     explicit DisassemblyWidget(MainWindow *main);
+    ~DisassemblyWidget() override;
     QWidget *getTextWidget();
 
     static QString getWidgetType();
